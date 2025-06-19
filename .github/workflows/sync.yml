@@ -1,0 +1,28 @@
+name: 🔄 Auto Sync Upstream
+
+on:
+  schedule:
+    - cron: '0 3 * * *' # 每天台灣時間上午 11 點觸發（UTC+8）
+  workflow_dispatch: # 允許手動觸發
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🧩 設定 Git 環境
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+
+      - name: ⬇️ Clone 倉庫
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: 🚀 添加 upstream 並同步
+        run: |
+          git remote add upstream https://github.com/原始作者帳號/原始repo.git
+          git fetch upstream
+          git checkout main
+          git merge upstream/main --no-edit || echo "沒有變更"
+          git push origin main
