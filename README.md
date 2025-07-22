@@ -20,6 +20,7 @@ npm install
 
 ```sh
 npm run dev
+const t = 1
 ```
 
 ### Compile and Minify for Production
